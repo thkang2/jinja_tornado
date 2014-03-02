@@ -39,23 +39,32 @@ jinja2 support for tornado applications.
 
 ## Template variables
 
-    request => tornado.web.RequestHandler.request
-    session => tornado.web.RequestHandler.get_secure_cookie('session')
-    path_args => tornado.web.RequestHandler.path_args
-    path_kwargs => tornado.web.RequestHandler.path_kwargs
-    settings => tornado.web.RequestHandler.application.settings
-    reverse_url => tornado.web.RequestHandler.application.reverse_url
-    static_url => tornado.web.RequestHandler.static_url
+    request        => tornado.web.RequestHandler.request
+    session        => tornado.web.RequestHandler.get_secure_cookie('session')
+    path_args      => tornado.web.RequestHandler.path_args
+    path_kwargs    => tornado.web.RequestHandler.path_kwargs
+    settings       => tornado.web.RequestHandler.application.settings
+    reverse_url    => tornado.web.RequestHandler.application.reverse_url
+    static_url     => tornado.web.RequestHandler.static_url
     xsrf_form_html => tornado.web.RequestHandler.xsrf_form_html
+    datetime       => datetime (python module)
+    locale         => tornado.web.RequestHandler.locale
+    _              => tornado.web.RequestHandler.locale.translate
+    handler        => tornado.web.RequestHandler (self)
+    current_user   => tornado.web.requestHandler.current_user
     
 ## Template filters
 
-    tojson => JSON-encode the given python object
+    tojson       => JSON-encode the given python object
     
-    <script>
-      var obj = {{ obj | tojson | safe }}
-    </script>
-
+        <script>
+          var obj = {{ obj | tojson | safe }}
+        </script>
+    
+    xhtml_escape => tornado.escape.xhtml_escape
+    url_escape   => tornado.escape.url_escape
+    squeeze      => tornado.escape.squeeze
+    linkify      => tornado.escape.linkify
 
 ## Todo
 
