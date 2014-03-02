@@ -112,8 +112,12 @@ class JinjaTemplateMixin(object):
             rv = {}
             rv['request'] = self.request
             rv['session'] = self.session
+            rv['path_args'] = self.path_args
+            rv['path_kwargs'] = self.path_kwargs
             rv['settings'] = self.application.settings
-
+            rv['reverse_url'] = self.application.reverse_url
+            rv['static_url'] = self.static_url
+            rv['xsrf_form_html'] = self.xsrf_form_html
             return rv
 
         ctx = _ctx_processor()
