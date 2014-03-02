@@ -3,6 +3,11 @@ jinja_tornado
 
 jinja2 support for tornado applications.
 
+## Install
+
+    $ python setup.py install
+
+
 ## Usage
 
     from jinja_tornado import JinjaApp, JinjaTemplateMixin
@@ -53,4 +58,4 @@ jinja2 support for tornado applications.
 
 ## License
 
-MIT
+see [LICENSE](LICENSE)
