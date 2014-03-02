@@ -47,6 +47,14 @@ jinja2 support for tornado applications.
     reverse_url => tornado.web.RequestHandler.application.reverse_url
     static_url => tornado.web.RequestHandler.static_url
     xsrf_form_html => tornado.web.RequestHandler.xsrf_form_html
+    
+## Template filters
+
+    tojson => JSON-encode the given python object
+    
+    <script>
+      var obj = {{ obj | tojson | safe }}
+    </script>
 
 
 ## Todo
