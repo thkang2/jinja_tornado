@@ -1,6 +1,8 @@
 # coding: utf-8
 from jinja2 import Environment, FileSystemLoader, Markup
 import json
+import datetime
+from tornado.escape import ( squeeze, linkify, url_escape, xhtml_escape )
 
 class JinjaApp(object):
     def __init__(self, application, jinja_options=None):
@@ -41,12 +43,11 @@ class JinjaApp(object):
 
         # those default values are copied from defaults of jinja2 and(or) flask.
         _jinja_config = dict(
-              extensions = ['jinja2.ext.autoescape', 'jinja2.ext.with_']
+              extensions  = ['jinja2.ext.autoescape', 'jinja2.ext.with_']
             , auto_reload = app_settings.get('autoreload', False)
-            , loader = _loader
-            , cache_size = 50 if app_settings.get('compiled_template_cache', True) else 0
-            , autoescape = True if app_settings.get('autoescape', 'xhtml_escape') == "xhtml_escape" else False
-            ,
+            , loader      = _loader
+            , cache_size  = 50 if app_settings.get('compiled_template_cache', True) else 0
+            , autoescape  = True if app_settings.get('autoescape', 'xhtml_escape') == "xhtml_escape" else False
             )
 
         _jinja_config.update(**(jinja_options or {}))
@@ -56,7 +57,11 @@ class JinjaApp(object):
         app_settings['jinja_environment'] = environment
         cls._make_decorators(environment)
         environment.filters.update(
-            tojson=tojson_filter
+              tojson       = tojson_filter
+            , xhtml_escape = xhtml_escape
+            , url_escape   = url_escape
+            , squeeze      = squeeze
+            , linkify      = linkify
         )
 
         return environment
@@ -109,15 +114,21 @@ class JinjaTemplateMixin(object):
         """ todo: support multiple template preprocessors """
 
         def _ctx_processor():
-            rv = {}
-            rv['request'] = self.request
-            rv['session'] = self.session
-            rv['path_args'] = self.path_args
-            rv['path_kwargs'] = self.path_kwargs
-            rv['settings'] = self.application.settings
-            rv['reverse_url'] = self.application.reverse_url
-            rv['static_url'] = self.static_url
-            rv['xsrf_form_html'] = self.xsrf_form_html
+            rv = dict(
+              request        = self.request
+            , session        = self.session
+            , path_args      = self.path_args
+            , path_kwargs    = self.path_kwargs
+            , settings       = self.application.settings
+            , reverse_url    = self.application.reverse_url
+            , static_url     = self.static_url
+            , xsrf_form_html = self.xsrf_form_html
+            , datetime       = datetime
+            , locale         = self.locale
+            , _              = self.locale.translate
+            , handler        = self
+            , current_user   = self.current_user
+            )
             return rv
 
         ctx = _ctx_processor()
